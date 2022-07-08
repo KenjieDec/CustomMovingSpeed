@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using HarmonyLib;
 using System;
 using System.Globalization;
@@ -31,35 +31,34 @@ public class CustomMovingSpeed : Mod
     public void OnModUnload()
     {
         Debug.Log(UnLoaded);
-        if (!Semih_Network.InLobbyScene)
+        if (!Raft_Network.InMenuScene)
         {
-               Raft raft = ComponentManager<Raft>.Value;
+            Raft raft = ComponentManager<Raft>.Value;
             if (raft != null)
             {
-            var defaultRaftSpeed = defaultSpeed * defaultRaft;
-            raft.maxSpeed = defaultRaftSpeed;
-            raft.maxVelocity = defaultRaftSpeed;
-            raft.waterDriftSpeed = defaultRaftSpeed;
-            changedRaft = defaultRaftSpeed;
-            if (anchored)
-            {
-                
-            }
-            else
-            {
-                ComponentManager<Raft>.Value.RemoveAnchor(10);
-            }
-        }
-            if (godmode)
-            {
+                var defaultRaftSpeed = defaultSpeed * defaultRaft;
+                raft.maxSpeed = defaultRaftSpeed;
+                raft.maxVelocity = defaultRaftSpeed;
+                raft.waterDriftSpeed = defaultRaftSpeed;
+                changedRaft = defaultRaftSpeed;
+                if (anchored)
+                {
 
+                }
+                else
+                {
+                    ComponentManager<Raft>.Value.RemoveAnchor(10);
+                }
             }
-            else
+            if (godmode)
             {
                 GameModeValueManager.GetCurrentGameModeValue().nourishmentVariables.foodDecrementRateMultiplier = 1f;
                 GameModeValueManager.GetCurrentGameModeValue().nourishmentVariables.thirstDecrementRateMultiplier = 1f;
                 RAPI.GetLocalPlayer().Stats.stat_oxygen.SetOxygenLostPerSecond(1f);
                 GameModeValueManager.GetCurrentGameModeValue().playerSpecificVariables.damageTakenMultiplier = 1f;
+            }
+            else
+            {
             }
             RAPI.GetLocalPlayer().PersonController.normalSpeed = 3;
             RAPI.GetLocalPlayer().PersonController.sprintSpeed = 6;
@@ -67,10 +66,29 @@ public class CustomMovingSpeed : Mod
         }
     }
 
-    [ConsoleCommand("showSpeed", "Log current speeds")]
+    public void Update()
+    {
+        if (godmode)
+        {
+        if (RAPI.GetLocalPlayer().Stats.stat_hunger.Normal.Value < 100 || RAPI.GetLocalPlayer().Stats.stat_thirst.Normal.Value < 100 || RAPI.GetLocalPlayer().Stats.stat_health.Value < 100 || RAPI.GetLocalPlayer().Stats.stat_oxygen.GetOxygenLostPerSecond() > 0f)
+        {
+            RAPI.GetLocalPlayer().Stats.stat_hunger.Normal.Value = 100;
+            RAPI.GetLocalPlayer().Stats.stat_health.Value = 100;
+            RAPI.GetLocalPlayer().Stats.stat_thirst.Normal.Value = 100;
+            RAPI.GetLocalPlayer().Stats.stat_oxygen.Value = 100;
+            GameModeValueManager.GetCurrentGameModeValue().nourishmentVariables.foodDecrementRateMultiplier = 0f;
+            GameModeValueManager.GetCurrentGameModeValue().nourishmentVariables.thirstDecrementRateMultiplier = 0f;
+            RAPI.GetLocalPlayer().Stats.stat_oxygen.SetOxygenLostPerSecond(0f);
+            GameModeValueManager.GetCurrentGameModeValue().playerSpecificVariables.damageTakenMultiplier = 0f;
+        }
+        }
+
+    }
+
+        [ConsoleCommand("showSpeed", "Log current speeds")]
     private static void showSpeeds(string[] args)
     {
-        if (Semih_Network.InLobbyScene)
+        if (Raft_Network.InMenuScene)
         {
             Debug.Log(Error + "Is In Lobby");
             return;
@@ -89,7 +107,7 @@ public class CustomMovingSpeed : Mod
     [ConsoleCommand("setRaftSpeed", "Set raft Speed up to 20")]
     private static void setRaftSpeed(string[] args)
     {
-        if (Semih_Network.InLobbyScene)
+        if (Raft_Network.InMenuScene)
         {
             Debug.Log(Error + "Is In Lobby");
             return;
@@ -164,7 +182,7 @@ public class CustomMovingSpeed : Mod
     [ConsoleCommand("anchorRaft", "Force Anchor Raft")]
     private static void ForceAnchor()
     {
-        if (Semih_Network.InLobbyScene)
+        if (Raft_Network.InMenuScene)
         {
             Debug.Log(Error + "Is In Lobby");
             return;
@@ -193,7 +211,7 @@ public class CustomMovingSpeed : Mod
     [ConsoleCommand("setWalkSpeed", "Set Walk Speed")]
     private static void setWalkSpeed(string[] args)
     {
-        if (Semih_Network.InLobbyScene)
+        if (Raft_Network.InMenuScene)
         {
             Debug.Log(Error + "Is In Lobby");
             return;
@@ -227,7 +245,7 @@ public class CustomMovingSpeed : Mod
     [ConsoleCommand("walkSpeed", "Set Walk Speed")]
     private static void walkSpeed(string[] args)
     {
-        if (Semih_Network.InLobbyScene)
+        if (Raft_Network.InMenuScene)
         {
             Debug.Log(Error + "Is In Lobby");
             return;
@@ -263,7 +281,7 @@ public class CustomMovingSpeed : Mod
     [ConsoleCommand("setSprintSpeed", "Set Sprint Speed")]
     private static void setSprintSpeed(string[] args)
     {
-        if (Semih_Network.InLobbyScene)
+        if (Raft_Network.InMenuScene)
         {
             Debug.Log(Error + "Is In Lobby");
             return;
@@ -297,7 +315,7 @@ public class CustomMovingSpeed : Mod
     [ConsoleCommand("sprintSpeed", "Set Sprint Speed")]
     private static void sprintSpeed(string[] args)
     {
-        if (Semih_Network.InLobbyScene)
+        if (Raft_Network.InMenuScene)
         {
             Debug.Log(Error + "Is In Lobby");
             return;
@@ -334,7 +352,7 @@ public class CustomMovingSpeed : Mod
     [ConsoleCommand("setSwimSpeed", "Set Swimming Speed")]
     private static void setSwimSpeed(string[] args)
     {
-        if (Semih_Network.InLobbyScene)
+        if (Raft_Network.InMenuScene)
         {
             Debug.Log(Error + "Is In Lobby");
             return;
@@ -370,7 +388,7 @@ public class CustomMovingSpeed : Mod
     [ConsoleCommand("swimSpeed", "Set Swimming Speed")]
     private static void swimSpeed(string[] args)
     {
-        if (Semih_Network.InLobbyScene)
+        if (Raft_Network.InMenuScene)
         {
             Debug.Log(Error + "Is In Lobby");
             return;
@@ -409,7 +427,7 @@ public class CustomMovingSpeed : Mod
     [ConsoleCommand("refill", "refill health, thirst and hungry bar")]
     private static void refill(string[] args)
     {
-        if (Semih_Network.InLobbyScene)
+        if (Raft_Network.InMenuScene)
         {
             Debug.Log(Error + "Is In Lobby");
             return;
@@ -417,8 +435,9 @@ public class CustomMovingSpeed : Mod
         if (args.Length < 1)
         {
             RAPI.GetLocalPlayer().Stats.stat_hunger.Normal.Value = 100;
-            RAPI.GetLocalPlayer().Stats.stat_thirst.Value = 100;
+            RAPI.GetLocalPlayer().Stats.stat_thirst.Normal.Value = 100;
             RAPI.GetLocalPlayer().Stats.stat_health.Value = 100;
+            RAPI.GetLocalPlayer().Stats.stat_oxygen.Value = 100;
         }
         else
         {
@@ -429,7 +448,7 @@ public class CustomMovingSpeed : Mod
     [ConsoleCommand("godmode", "godmode! Can't die!")]
     private static void godmodeisreal(string[] args)
     {
-        if (Semih_Network.InLobbyScene)
+        if (Raft_Network.InMenuScene)
         {
             Debug.Log(Error + "Is In Lobby");
             return;
@@ -437,6 +456,17 @@ public class CustomMovingSpeed : Mod
         godmode = !godmode;
         if (godmode)
         {
+            while (RAPI.GetLocalPlayer().Stats.stat_hunger.Normal.Value < 100 || RAPI.GetLocalPlayer().Stats.stat_thirst.Normal.Value < 100 || RAPI.GetLocalPlayer().Stats.stat_health.Value < 100 || RAPI.GetLocalPlayer().Stats.stat_oxygen.GetOxygenLostPerSecond() > 0f)
+            {
+                RAPI.GetLocalPlayer().Stats.stat_hunger.Normal.Value = 100;
+                RAPI.GetLocalPlayer().Stats.stat_health.Value = 100;
+                RAPI.GetLocalPlayer().Stats.stat_thirst.Normal.Value = 100;
+                RAPI.GetLocalPlayer().Stats.stat_oxygen.Value = 100;
+                GameModeValueManager.GetCurrentGameModeValue().nourishmentVariables.foodDecrementRateMultiplier = 0f;
+                GameModeValueManager.GetCurrentGameModeValue().nourishmentVariables.thirstDecrementRateMultiplier = 0f;
+                RAPI.GetLocalPlayer().Stats.stat_oxygen.SetOxygenLostPerSecond(0f);
+                GameModeValueManager.GetCurrentGameModeValue().playerSpecificVariables.damageTakenMultiplier = 0f;
+            }
             GameModeValueManager.GetCurrentGameModeValue().nourishmentVariables.foodDecrementRateMultiplier = 0f;
             GameModeValueManager.GetCurrentGameModeValue().nourishmentVariables.thirstDecrementRateMultiplier = 0f;
             RAPI.GetLocalPlayer().Stats.stat_oxygen.SetOxygenLostPerSecond(0f);
