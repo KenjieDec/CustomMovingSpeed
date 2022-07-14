@@ -44,6 +44,7 @@ showSpeed
 *Set the walk speed multiplier.*
 
 ```shell
+# Default Speed 3
 setWalkSpeed <Amount>
 walkSpeed <Amount>
 ```
@@ -55,6 +56,7 @@ walkSpeed <Amount>
 *Set the sprint speed multiplier.*
 
 ```shell
+# Default Speed 6
 setSprintSpeed <Amount>
 sprintSpeed <Amount>
 ```
@@ -66,6 +68,7 @@ sprintSpeed <Amount>
 *Set the swim speed multiplier.*
 
 ```shell
+# Default Speed 2
 setSwimSpeed <Amount>
 swimSpeed <Amount>
 ```
@@ -77,6 +80,7 @@ swimSpeed <Amount>
 *Set the speed multiplier of your raft.*
 
 ```shell
+# Default Speed 1.5
 setRaftSpeed <Amount>
 ```
 
